@@ -25,7 +25,7 @@ update_task_annotation <- function(task_id, annots, success, task_view = NA) {
 #' @param folder synID of parent folder for logs
 #' @param path log file path
 upload_log <- function(folder, path) {
-  syn_file <- File(path = path, parent = parent)
+  syn_file <- File(path = path, parent = folder)
   synStore(syn_file)
 }
 
