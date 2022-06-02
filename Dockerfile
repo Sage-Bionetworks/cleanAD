@@ -11,6 +11,7 @@ RUN install2.r --error \
     purrr \
     readr \
     readxl \
+    rjson \
     tidyr \
     log4r \
     mockery \
@@ -26,8 +27,8 @@ RUN apt-get update --allow-releaseinfo-change && \
 ADD https://api.github.com/repos/Sage-Bionetworks/cleanAD/git/refs/heads/master version.json
 
 RUN git clone https://github.com/Sage-Bionetworks/cleanAD.git && \
-    chmod +x cleanAD/update_table.sh
-    
+    chmod +x cleanAD/update_table.sh cleanAD_scheduled_job_update_table.sh
+
 RUN R CMD INSTALL ./cleanAD
 
 CMD ["/bin/bash"]

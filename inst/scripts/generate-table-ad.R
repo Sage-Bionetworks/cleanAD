@@ -7,11 +7,24 @@ suppressPackageStartupMessages(library("cleanAD"))
 suppressPackageStartupMessages(library("log4r"))
 suppressPackageStartupMessages(library("lubridate"))
 suppressPackageStartupMessages(library("optparse"))
+suppressPackageStartupMessages(library("rjson"))
 suppressPackageStartupMessages(library("synapser"))
 
 ## CLI Args --------------------------------------------------------------------
 
 option_list <- list(
+  optparse::make_option(
+    "--as_scheduled_job",
+    type = "logical",
+    action = "store",
+    default = FALSE,
+    help = "Logical value indicating whether the specimen table update script is
+            being run as an AWS Schedule Job. If TRUE, a Synapse PAT will be read
+            from the SCHEDULE_JOB_SECRETS parameter and the --auth_token argument
+            should be left empty. If FALSE (default), a
+            PAT must by provided to the --auth_token argument or local Synapse
+            credentials must be available."
+  ),
   optparse::make_option(
     "--auth_token",
     type = "character",
@@ -39,6 +52,17 @@ option_list <- list(
 opt_parser <- optparse::OptionParser(option_list = option_list)
 opts <- optparse::parse_args(opt_parser)
 
+# test scheduled job
+# opts$as_scheduled_job <- TRUE
+
+# test no schedule, but auth token
+# opts$as_scheduled_job <- FALSE
+# opts$auth_token <- rjson::fromJSON(Sys.getenv("SCHEDULED_JOB_SECRETS"))$SYNAPSE_AUTH_TOKEN
+
+# test no scheduled job and no auth token (default opts)
+# opts$as_scheduled_job <- FALSE
+# opts$auth_token <- NA
+
 ## Setup -----------------------------------------------------------------------
 
 ## Constants
@@ -62,10 +86,23 @@ if (!is.na(get_config("log_folder", opts$config))) {
   upload_log <- TRUE
 }
 
-## Use synapser and log in
+## If running as scheduled job, extract auth token secret
+
+if(isTRUE(opts$as_scheduled_job)) {
+  authToken <-
+    rjson::fromJSON(Sys.getenv("SCHEDULED_JOB_SECRETS"))$SYNAPSE_AUTH_TOKEN
+  } else if (!is.na(opts$auth_token)) {
+    authToken <- opts$auth_token
+  } else {
+    authToken <- NA
+  }
+
+## Login with Synapser
+# First look for authToken; if not provided, use local synapseCreds
+
 tryCatch(
   {
-    if(is.na(opts$auth_token)) {
+    if(is.na(authToken)) {
       synLogin()
     } else {
       synLogin(authToken = opts$auth_token)
