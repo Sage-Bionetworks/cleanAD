@@ -73,3 +73,15 @@ cd cleanAD
 docker build -t cleanad .
 ```
 
+##### Running as a Scheduled Job in the Sage AWS Service Catalog
+
+Provide a Synapse PAT to the Scheduled Job secrets field named `"SYNAPSE_AUTH_TOKEN":"<your-PAT-here>"`.
+
+Pull the public docker image and run with the following command (`ad` and `TRUE` are arguments to `config` and `as_scheduled_job` respectively).
+
+```bash
+docker run --rm --entrypoint "./cleanAD/scheduled_job_update_table.sh" sagebionetworks/cleanad:latest ad TRUE
+```
+
+
+
