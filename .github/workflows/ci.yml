@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - tyu/gh-action-docker-build
 
 jobs:
   docker:
