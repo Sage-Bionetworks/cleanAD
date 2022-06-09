@@ -23,11 +23,11 @@ RUN apt-get update --allow-releaseinfo-change && \
 
 # Clone repo and install
 # Github API call will return different results if head changes, invalidating the cache for this step
-
 ADD https://api.github.com/repos/Sage-Bionetworks/cleanAD/git/refs/heads/master version.json
 
-RUN git clone https://github.com/Sage-Bionetworks/cleanAD.git && \
-    chmod +x cleanAD/update_table.sh cleanAD_scheduled_job_update_table.sh
+RUN git clone https://github.com/Sage-Bionetworks/cleanAD.git
+
+RUN chmod +x cleanAD/update_table.sh cleanAD/scheduled_job_update_table.sh
 
 RUN R CMD INSTALL ./cleanAD
 
