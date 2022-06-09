@@ -25,6 +25,7 @@ jobs:
   docker_push:
     needs: [docker_build]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -37,7 +38,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v3
-        if: github.ref == 'refs/heads/main'
         with:
           push: true
           tags: sagebionetworks/cleanad:latest
