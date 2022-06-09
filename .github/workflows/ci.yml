@@ -8,7 +8,22 @@ on:
 
 
 jobs:
-  docker:
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: sagebionetworks/cleanad:latest
+
+
+  docker_push:
+    needs: [docker_build]
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -20,11 +35,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: sagebionetworks/cleanad:latest
       - name: Build and push
         uses: docker/build-push-action@v3
         if: github.ref == 'refs/heads/main'
