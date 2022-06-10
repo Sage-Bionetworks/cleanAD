@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - 'main'
+      - 'master'
 
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
   docker_push:
     needs: [docker_build]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
