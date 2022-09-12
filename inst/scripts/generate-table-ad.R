@@ -2,6 +2,9 @@
 # Generate specimen table for AD #
 ##################################
 
+# testing -- load_all
+devtools::load_all()
+
 # Import package -----
 suppressPackageStartupMessages(library("cleanAD"))
 suppressPackageStartupMessages(library("log4r"))
@@ -56,8 +59,9 @@ opts <- optparse::parse_args(opt_parser)
 # opts$as_scheduled_job <- TRUE
 
 # test no schedule, but auth token
-# opts$as_scheduled_job <- FALSE
-# opts$auth_token <- rjson::fromJSON(Sys.getenv("SCHEDULED_JOB_SECRETS"))$SYNAPSE_AUTH_TOKEN
+opts$as_scheduled_job <- FALSE
+opts$auth_token <- Sys.getenv("SYNAPSE_PAT")
+opts$config <- "test-ad"
 
 # test no scheduled job and no auth token (default opts)
 # opts$as_scheduled_job <- FALSE
