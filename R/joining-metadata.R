@@ -3,7 +3,11 @@
 #' @description Join full study metadata set by specimenID and individualID.
 #' Note: this is currently limited in scope to just individualID, specimenID,
 #' and assay. Additionally, will give back error if only given assay(s) or a
-#' biospecimen file with no other metadata.
+#' biospecimen file with no other metadata; OR if there is more than one
+#' individual or biospecimen metadata file associated with a study.
+#'
+#' TODO: in case of above errors, should find a way to indicate which study
+#' cause the problem.
 #'
 #' @param meta_files Dataframe with columns `metadataType` (`assay`,
 #' `individual`, or `biospecimen`), `assay` (type of assay), and `data` (nested
@@ -23,6 +27,17 @@ join_full_study_metadata <- function(meta_files) {
   if (all(!unlist(not_na)) | all(is.na(meta_files$data))) {
     return(NA)
   }
+
+  # Can't have more than one individual metadata file per study
+  if (length(file_indices$individual) > 1) {
+    stop("A study cannot have more than one individual metadata file")
+    }
+
+  # Can't have more than one biospecimen metadata file per study
+  if (length(file_indices$biospecimen) > 1) {
+    stop("A study cannot have more than one biospecimen metadata file")
+  }
+
   # All metadata types present
   if (all(unlist(not_na))) {
     metadata <- join_ids_assay_all(meta_files)

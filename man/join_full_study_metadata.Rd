@@ -18,5 +18,9 @@ Dataframe with columns \code{individualID}, \code{specimenID}, \code{assay}.
 Join full study metadata set by specimenID and individualID.
 Note: this is currently limited in scope to just individualID, specimenID,
 and assay. Additionally, will give back error if only given assay(s) or a
-biospecimen file with no other metadata.
+biospecimen file with no other metadata; OR if there is more than one
+individual or biospecimen metadata file associated with a study.
+
+TODO: in case of above errors, should find a way to indicate which study
+cause the problem.
 }

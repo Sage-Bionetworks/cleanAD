@@ -16,5 +16,6 @@ get_file_indices(
 \code{c("biospecimen", "assay", "individual")}.}
 }
 \description{
-Get a list of file indices for each metadata file type.
+Get a list of file indices for each metadata file type. There
+should be only one individual file and one biospecimen file per study.
 }

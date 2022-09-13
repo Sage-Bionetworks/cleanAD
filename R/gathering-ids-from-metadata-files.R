@@ -150,7 +150,8 @@ add_missing_meta_columns <- function(metadata,
 
 #' @title Get Indices for All Metadata File Types
 #'
-#' @description Get a list of file indices for each metadata file type.
+#' @description Get a list of file indices for each metadata file type. There
+#' should be only one individual file and one biospecimen file per study.
 #'
 #' @param meta_files Dataframe with column `metadataType` (type of metadata).
 #' @param meta_types Vector of metadata types to get indices for. Default is
