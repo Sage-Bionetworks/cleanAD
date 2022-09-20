@@ -109,7 +109,7 @@ tryCatch(
     if(is.na(authToken)) {
       synLogin()
     } else {
-      synLogin(authToken = opts$auth_token)
+      synLogin(authToken = authToken)
     }
   },
   error = function(e) {
