@@ -1,4 +1,9 @@
 # cleanAD
+
+### Archived on 2024-12-04
+
+The specimen table script is no longer needed because we are no longer using dccvalidator or the underlying specimen table. The issues in this repo contain some documentation on the original harmonization/clean-up of the ROSMAP, MSBB, and MayoRNASeq study metadata in 2020 but otherwise this repo is not active.
+
 Tools for cleaning and organizing study data for the AD Knowledge Portal.
 
 ## Installation
